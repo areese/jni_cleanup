@@ -6,6 +6,11 @@ Overview
 This is a small chunk of code that provides an example for automatically cleaning up JNI Objects in Java without using a Finalizer.
 It also includes "Leak" detection, where you can enable a flag to dump all of the places where someone created an Object and didn't close it.
 
+JDK9 adds Cleaner.cleanable: http://download.java.net/java/jdk9/docs/api/java/lang/ref/Cleaner.Cleanable.html
+
+FWIW, this is a terrible idea, and I've encountered lots of problems when running this under load.  If the free method grabs some sort of lock you can end with some really weird crashes.
+
+You are far better off implementing Closeable, and just leaking the jni memory than fighting with the oddness I've seen by abusing this api.
 
 Running
 -----------
